@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap");
+
+:root {
+  --font-stack: "Fugaz One", cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  height: 10vh;
+  background-color: #ff206e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-size: 1.6em;
+  color: #fff;
+  font-family: var(--font-stack);
+}
+
+.map {
+  height: 90vh;
+  width: 100vw;
+  /* z-index: -1; */
+}
