@@ -34,3 +34,26 @@ function onLocationError(e) {
 }
 
 map.on("locationerror", onLocationError);
+
+/* Getting data from API */
+let scooterData = [];
+
+function getData() {
+  let url =
+    "http://api.flamingoscooters.com/gbfs/wellington/free_bike_status.json";
+
+  fetch(url).then(function (response) {
+    response.json().then(function (data) {
+      scooterData = data.data.bikes;
+      displayMarkers();
+    });
+  });
+}
+
+function displayMarkers() {
+  for (var i = 0; i < scooterData.length; i++) {
+    L.marker([scooterData[i].lat, scooterData[i].lon]).addTo(map);
+  }
+}
+
+window.addEventListener("onload", getData());
