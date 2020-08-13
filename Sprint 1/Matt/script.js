@@ -1,3 +1,22 @@
+// Sidebar Nav code
+function openNav() {
+  document.getElementById("sidebar").style.width = "70vw";
+  document.getElementById("map").style.zIndex = "-1";
+  document.getElementById("opaque").style.display = "block";
+}
+const openBtn = document.getElementById("openBtn");
+openBtn.addEventListener("click", openNav);
+
+function closeNav() {
+  document.getElementById("sidebar").style.width = "0";
+  setTimeout(function () {
+    document.getElementById("map").style.zIndex = "0";
+  }, 500);
+  document.getElementById("opaque").style.display = "none";
+}
+const closeBtn = document.getElementById("closeBtn");
+closeBtn.addEventListener("click", closeNav);
+
 // Leaflet / Map related code
 var map = L.map("map").setView([-41.28664, 174.7757], 13);
 
