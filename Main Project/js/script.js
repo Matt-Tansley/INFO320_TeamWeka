@@ -57,16 +57,14 @@ function displayMarkers() {
   let markers = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
   for (var i = 0; i < scooterData.length; i++) {
     let marker = L.marker([scooterData[i].lat, scooterData[i].lon]);
-    //marker.bindPopup("Scooter ID: " + scooterData[i].bike_id + "\n Range: " + scooterData[i].current_range_meters + "m")
-    markerList.push(marker);
-
     markers.addLayer(marker);
+    markerList.push(marker);
   }
   map.addLayer(markers);
-  getInfo();
+  createMarkerPopups();
 }
 
-function getInfo() {
+function createMarkerPopups() {
   console.log("getInfo Called");
   markerList.forEach(function (marker) {
     marker.on("click", function () {
