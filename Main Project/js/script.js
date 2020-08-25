@@ -64,63 +64,36 @@ function displayMarkers() {
   createMarkerPopups();
 }
 
+/* Creates popups for each marker */
 function createMarkerPopups() {
-  console.log("getInfo Called");
   markerList.forEach(function (marker) {
     marker.on("click", function () {
+      // Index used to find the scooter the marker is associated with.
       var index = markerList.indexOf(marker);
-      let output = ` 
-            <h3><span>Settings</span></h3>
- 
-            <table>
-            <tr>
-                <th>ID:</th>
-                <td>${scooterData[index].bike_id}</td>
-            </tr>
-            <tr>
-                <th>Range:</th>
-                <td>${scooterData[index].current_range_meters + "m"}</td>
-            </tr>
-            <tr>
-                <th>GPS Status:</th>
-                <td>Available</td>
-            </tr>
-            <tr>
-                <th>GPS Updated:</th>
-                <td>3:15pm 16/8/20</td>
-             </tr>
-            <tr>
-                <th>GPS Precsion:</th>
-                <td>Perfect</td>
-             </tr>
-        
-            </table> 
 
-            <div class="buttons">
-            <div class="rows">
-                <div class="btn">
-                    <input type="button" value="Location"> </div>
-                <div class="btn">
-                    <input type="button" value="Naviagtion">
-                </div>
-            </div>
-            <div class="rows">
-                <div class="btn">
-                    <input type="button" value="Open Hatch">
-                </div>
-                <div class="btn">
-                    <input type="button" value="Mark Completed">
-                </div>
-            </div>             
-            `;
-      let newOutput = `<iframe src="scooter_info.html"></iframe>`;
-      marker.bindPopup(newOutput);
-      //dataOutput.innerHTML = output;
-      //marker.url = 'scooter_info.html';
-      //window.location = (marker.url);
-      console.log(output);
+      // Create an iframe html element to display the scooter data.
+      // id="popUp" is important so JS can find the iframe.
+      // onload="getPopUpData(${index})" is called so the right data for this scooter can be displayed.
+      let output = `<iframe id="popUp" onload="getPopUpData(${index})" src="scooter_info.html"></iframe>`;
+
+      // Finally, bind the output with this marker.
+      marker.bindPopup(output);
     });
   });
+}
+
+/* Display data about scooter inside Leaflet popup.
+Is passed the index of the scooter/marker in the scooterData array. */
+function getPopUpData(index) {
+  var iFrame = document.getElementById("popUp");
+
+  var scooterID = iFrame.contentWindow.document.getElementById("scooterID");
+  scooterID.innerHTML = scooterData[index].bike_id;
+
+  var scooterRange = iFrame.contentWindow.document.getElementById(
+    "scooterRange"
+  );
+  scooterRange.innerHTML = scooterData[index].current_range_meters + "m";
 }
 
 window.addEventListener("onload", getData());

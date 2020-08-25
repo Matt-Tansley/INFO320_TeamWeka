@@ -1,8 +1,10 @@
+/* Google Fonts Importing */
 @import url("https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap");
-
-:root {
-  --font-stack: "Fugaz One", cursive;
-}
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+/*
+font-family: "Fugaz One", cursive;
+font-family: 'Roboto', sans-serif; 
+ */
 
 * {
   box-sizing: border-box;
@@ -19,7 +21,17 @@
   padding: 10px;
   font-size: 1.6em;
   color: #fff;
-  font-family: var(--font-stack);
+  font-family: "Fugaz One", cursive;
+}
+
+.header p {
+  flex-grow: 3;
+  text-align: center;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
 }
 
 .map {
@@ -48,7 +60,7 @@
   color: #ff206e;
   display: block;
   transition: 0.3s;
-  font-family: var(--font-stack);
+  font-family: "Fugaz One", cursive;
 }
 
 .sidebar .closeBtn {
@@ -73,14 +85,19 @@
 }
 
 /*Scooter information design*/
-
 .info {
   text-align: center;
-  margin: 30px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 table {
-  font-family: arial, sans-serif;
+  font-family: "Roboto", sans-serif;
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
@@ -90,12 +107,12 @@ table {
 
 th {
   text-align: left;
-  padding: 20px;
+  padding: 4px;
 }
 
 td {
   text-align: right;
-  padding: 20px;
+  padding: 4px;
 }
 
 .rows {
@@ -105,30 +122,17 @@ td {
 }
 
 .btn {
-  color: white;
-  padding: 14px 20px;
-  margin: auto;
-}
-
-input[type="button"] {
   background-color: lightgrey;
   color: black;
-  padding: 14px 20px;
-  border: none;
-  cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 14px 10px;
+  margin: 4px;
+  font-family: "Roboto", sans-serif;
   font-weight: bold;
-  width: 10em;
-}
-
-input[type="button"]:hover {
-  background-color: grey;
-}
-
-#arrow {
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
+  width: 50%;
+  height: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h3 {
@@ -138,7 +142,7 @@ h3 {
   line-height: 0.1em;
   margin: 50px 0 20px;
   border-radius: 30px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 h3 span {
@@ -148,6 +152,6 @@ h3 span {
 
 iframe {
   height: 60vh;
-  width: 60vw;
+  width: 80vw;
   border: none;
 }
