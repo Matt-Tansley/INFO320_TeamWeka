@@ -1,0 +1,24 @@
+/* Google Fonts Importing */
+@import url("https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+/*
+font-family: "Fugaz One", cursive;
+font-family: 'Roboto', sans-serif; 
+ */
+
+.history-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+
+.history-header a {
+  text-decoration: none;
+  color: black;
+  border: 1px solid black;
+  padding: 4px;
+}
