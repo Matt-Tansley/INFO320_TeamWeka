@@ -29,11 +29,41 @@
   </head>
   <body>
     <div class="sidebar" id="sidebar">
-      <a href="javascript:void(0)" class="closeBtn" id="closeBtn">&times;</a>
-      <a href="">Lorem</a>
-      <a href="">Lorem</a>
-      <a href="">Lorem</a>
-      <a href="">Lorem</a>
+      <div class="sidebar-icons">
+        <img
+          class="sidebar-grid-icon"
+          src="resources/logo_white_on_pink_cropped.png"
+          alt=""
+        />
+        <i class="fas fa-bolt sidebar-grid-icon"></i>
+        <i class="fas fa-info sidebar-grid-icon"></i>
+        <i class="fas fa-cog sidebar-grid-icon"></i>
+        <i class="fas fa-sign-out-alt sidebar-grid-icon"></i>
+      </div>
+      <div class="sidebar-text">
+        <div class="sidebar-user sidebar-grid-item">
+          <a href="javascript:void(0)" class="closeBtn" id="closeBtn"
+            >&times;</a
+          >
+          <p>Nick Hyland</p>
+        </div>
+        <a href="" class="sidebar-grid-item">How to Charge</a>
+        <a href="" class="sidebar-grid-item">Support</a>
+        <a href="" class="sidebar-grid-item">Account Settings</a>
+        <a href="" class="sidebar-grid-item">Logout</a>
+
+        <div class="slidecontainer sidebar-grid-item">
+          <p>Dark Mode</p>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            value="0"
+            class="slider"
+            id="myRange"
+          />
+        </div>
+      </div>
     </div>
 
     <div class="opaque" id="opaque"></div>
@@ -42,7 +72,6 @@
       <div class="header">
         <div class="openBtn" id="openBtn"><i class="fas fa-bars"></i></div>
         <p>Flamingo Finder</p>
-        <!-- <div class="logo"><i class="fas fa-kiwi-bird"></i></div> -->
         <img
           class="logo"
           src="resources/logo_white_on_pink_cropped.png"
