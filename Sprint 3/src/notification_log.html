@@ -1,120 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/ce0d2bff6f.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script
+      src="https://kit.fontawesome.com/ce0d2bff6f.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.css" />
-    <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.Default.css" />
+    <link
+      rel="stylesheet"
+      href="resources/LeafletCluster/MarkerCluster.Default.css"
+    />
     <script src="resources/LeafletCluster/leaflet.markercluster.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <title>Flamingo Finder</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-icons">
-          <img
-            class="sidebar-grid-icon"
-            src="resources/logo_white_on_pink_cropped.png"
-            alt=""
-          />
-          <i class="fas fa-history sidebar-grid-icon"></i>
-          <i class="fas fa-comment-alt sidebar-grid-icon"></i>
-          <i class="fas fa-info sidebar-grid-icon"></i>
-          <i class="fas fa-cog sidebar-grid-icon"></i>
-          <i class="fas fa-sign-out-alt sidebar-grid-icon"></i>
-        </div>
-        <div class="sidebar-text">
-          <div class="sidebar-user sidebar-grid-item">
-            <a href="javascript:void(0)" class="closeBtn" id="closeBtn"
-              >&times;</a
-            >
-            <p>Nick Hyland</p>
-          </div>
-          <a href="history.htmlclass="sidebar-grid-item">History</a>
-          <a href="notification_log.html" class="sidebar-grid-item"
-            >Notifications</a
+      <div class="sidebar-icons">
+        <img
+          class="sidebar-grid-icon"
+          src="resources/logo_white_on_pink_cropped.png"
+          alt=""
+        />
+        <i class="fas fa-history sidebar-grid-icon"></i>
+        <i class="fas fa-comment-alt sidebar-grid-icon"></i>
+        <i class="fas fa-info sidebar-grid-icon"></i>
+        <i class="fas fa-cog sidebar-grid-icon"></i>
+        <i class="fas fa-sign-out-alt sidebar-grid-icon"></i>
+      </div>
+      <div class="sidebar-text">
+        <div class="sidebar-user sidebar-grid-item">
+          <a href="javascript:void(0)" class="closeBtn" id="closeBtn"
+            >&times;</a
           >
-          <a href="" class="sidebar-grid-item">Support</a>
-          <a href="" class="sidebar-grid-item">Account Settings</a>
-          <a href="index.html" class="sidebar-grid-item">Logout</a>
-  
-          <div class="slidecontainer sidebar-grid-item">
-            <p>Dark Mode</p>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              value="0"
-              class="slider"
-              id="myRange"
-            />
-          </div>
+          <p>Nick Hyland</p>
+        </div>
+        <a href="history.html" class="sidebar-grid-item">History</a>
+        <a href="notification_log.html" class="sidebar-grid-item"
+          >Notifications</a
+        >
+        <a href="" class="sidebar-grid-item">Support</a>
+        <a href="" class="sidebar-grid-item">Settings</a>
+        <a href="login.html" class="sidebar-grid-item">Logout</a>
+
+        <div class="slidecontainer sidebar-grid-item">
+          <p>Dark Mode</p>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            value="0"
+            class="slider"
+            id="myRange"
+          />
         </div>
       </div>
+    </div>
 
     <div class="opaque" id="opaque"></div>
 
     <div class="container" id="container">
-        <div class="header">
-            <div class="openBtn" id="openBtn"><i class="fas fa-bars"></i></div>
-            <p>Notification</p>
-            <img class="logo" src="resources/logo_white_on_pink_cropped.png" alt="" />
-        </div>
+      <div class="header">
+        <div class="openBtn" id="openBtn"><i class="fas fa-bars"></i></div>
+        <p>Notification</p>
+        <img
+          class="logo"
+          src="resources/logo_white_on_pink_cropped.png"
+          alt=""
+        />
+      </div>
     </div>
 
     <section class="Nearby-section">
-        <span class="scooter-header scooter-column">Nearby Scooters</span>
-        <a href="main.html" class="close"></a>
-        <div class="scooters">
-            <div class="scooter-notif">
-                <div class="scooter-column">
-                    <img class="item-image" src="resources/scooterimg1.jpeg" width="100" height="100">
-                    <p class="scooter-info"> <span class="scooter-title">Scooter: 23 </span> <br> Wellington Waterfront Walk, Te Aro <br> <span style="font-weight: bold; padding-right: 10px;">BATTERY: 37% </span> 400m - 5mins</p>
-                    <span class="notif-time">7 mins ago</span>
-                </div>
-            </div>
-
-            <div class="scooter-notif">
-                <div class="scooter-column">
-                    <img class="item-image" src="resources/scooterimg2.jpg" width="100" height="100">
-                    <p class="scooter-info"> <span class="scooter-title">Scooter: 44 </span> <br> Wellington Waterfront Walk, Te Aro <br> <span style="font-weight: bold; padding-right: 10px;">BATTERY: 66% </span> 900m - 15mins</p>
-                    <span class="notif-time">10 mins ago</span>
-                </div>
-            </div>
-
+      <span class="scooter-header scooter-column">Nearby Scooters</span>
+      <a href="main.html" class="close"></a>
+      <div class="scooters">
+        <div class="scooter-notif">
+          <div class="scooter-column">
+            <img
+              class="item-image"
+              src="resources/scooterimg1.jpeg"
+              width="100"
+              height="100"
+            />
+            <p class="scooter-info">
+              <span class="scooter-title">Scooter: 23 </span> <br />
+              Wellington Waterfront Walk, Te Aro <br />
+              <span style="font-weight: bold; padding-right: 10px"
+                >BATTERY: 37%
+              </span>
+              400m - 5mins
+            </p>
+            <span class="notif-time">7 mins ago</span>
+          </div>
         </div>
 
+        <div class="scooter-notif">
+          <div class="scooter-column">
+            <img
+              class="item-image"
+              src="resources/scooterimg2.jpg"
+              width="100"
+              height="100"
+            />
+            <p class="scooter-info">
+              <span class="scooter-title">Scooter: 44 </span> <br />
+              Wellington Waterfront Walk, Te Aro <br />
+              <span style="font-weight: bold; padding-right: 10px"
+                >BATTERY: 66%
+              </span>
+              900m - 15mins
+            </p>
+            <span class="notif-time">10 mins ago</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="Fixing-section">
-        <span class="scooter-header scooter-column" style="padding-top: 50px;">Needs Fixing</span>
-        <div class="scooters">
-            <div class="scooter-notif">
-                <div class="scooter-column">
-                    <img class="item-image" src="resources/scooterimg3.jpg" width="100" height="100">
-                    <p class="scooter-info"> <span class="scooter-title">Scooter: 52 </span> <br> Wellington Waterfront Walk, Te Aro <br> <span style="font-weight: bold; padding-right: 10px; color: red;">BATTERY: BELOW 15% </span> </p>
-                    <span class="notif-time">7 mins ago</span>
-                </div>
-            </div>
-
-            <div class="scooter-notif">
-                <div class="scooter-column">
-                    <img class="item-image" src="resources/x.png" width="100" height="100">
-                    <p class="scooter-info"> <span class="scooter-title">Scooter: 82 </span> <br> Wellington Waterfront Walk, Te Aro <br> <span style="font-weight: bold; padding-right: 10px; color: red;">FAULTY: NEEDS FIXING </span> </p>
-                    <span class="notif-time">10 mins ago</span>
-                </div>
-            </div>
-
+      <span class="scooter-header scooter-column" style="padding-top: 50px"
+        >Needs Fixing</span
+      >
+      <div class="scooters">
+        <div class="scooter-notif">
+          <div class="scooter-column">
+            <img
+              class="item-image"
+              src="resources/scooterimg3.jpg"
+              width="100"
+              height="100"
+            />
+            <p class="scooter-info">
+              <span class="scooter-title">Scooter: 52 </span> <br />
+              Wellington Waterfront Walk, Te Aro <br />
+              <span style="font-weight: bold; padding-right: 10px; color: red"
+                >BATTERY: BELOW 15%
+              </span>
+            </p>
+            <span class="notif-time">7 mins ago</span>
+          </div>
         </div>
 
+        <div class="scooter-notif">
+          <div class="scooter-column">
+            <img
+              class="item-image"
+              src="resources/x.png"
+              width="100"
+              height="100"
+            />
+            <p class="scooter-info">
+              <span class="scooter-title">Scooter: 82 </span> <br />
+              Wellington Waterfront Walk, Te Aro <br />
+              <span style="font-weight: bold; padding-right: 10px; color: red"
+                >FAULTY: NEEDS FIXING
+              </span>
+            </p>
+            <span class="notif-time">10 mins ago</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <script src="js/script.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,8 +1,12 @@
 // Sidebar Nav code
 function openNav() {
   document.getElementById("sidebar").style.width = "70vw";
-  document.getElementById("map").style.zIndex = "-1";
   document.getElementById("opaque").style.display = "block";
+
+  const map = document.getElementById("map");
+  if (map != null) {
+    map.style.zIndex = "-1";
+  }
 }
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", openNav);
@@ -10,7 +14,10 @@ openBtn.addEventListener("click", openNav);
 function closeNav() {
   document.getElementById("sidebar").style.width = "0";
   setTimeout(function () {
-    document.getElementById("map").style.zIndex = "0";
+    const map = document.getElementById("map");
+    if (map != null) {
+      map.style.zIndex = "0";
+    }
   }, 500);
   document.getElementById("opaque").style.display = "none";
 }
