@@ -1,8 +1,10 @@
 #mymap {
-  height: 500px;
+    height: 500px;
 }
 
+
 /* Leaflet Routing Styles */
+
 .leaflet-routing-container {
-  display: none;
+    display: none;
 }
