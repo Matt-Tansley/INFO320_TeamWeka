@@ -131,7 +131,7 @@ function getPopUpData(index) {
 
 }
 
-// Sidebar Nav code
+// Open popup for locate button code
 function openPopup() {
     document.getElementById("nearby").style.height = "60vw";
 
@@ -143,7 +143,7 @@ function openPopup() {
         locateBtn.style.zIndex = "-1";
     }
 }
-
+// Clsose popup for locate button code
 function closePopup() {
     document.getElementById("nearby").style.height = "0";
     setTimeout(function() {
