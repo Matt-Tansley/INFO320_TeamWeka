@@ -34,15 +34,30 @@ function validate(form) {
 }
 
 // Getting data from Flamingo Public API
+// let scooterData = [];
+
+// function getData() {
+//     console.log("Getting old data")
+//     let url =
+//         "http://api.flamingoscooters.com/gbfs/wellington/free_bike_status.json";
+
+//     fetch(url).then(function(response) {
+//         response.json().then(function(data) {
+//             scooterData = data.data.bikes;
+//         });
+//     });
+// }
+
+// Getting data from updated Flamingo API
 let scooterData = [];
 
 function getData() {
     let url =
-        "http://api.flamingoscooters.com/gbfs/wellington/free_bike_status.json";
+        "https://api.flamingoscooters.com/weka/feed.json";
 
     fetch(url).then(function(response) {
         response.json().then(function(data) {
-            scooterData = data.data.bikes;
+            scooterData = data.data;
             displayMarkers();
         });
     });
@@ -70,7 +85,7 @@ Adds all the markers to a markerClusterGroup so that they will 'cluster'. */
 function displayMarkers() {
     let markerCluster = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
     for (var i = 0; i < scooterData.length; i++) {
-        let marker = L.marker([scooterData[i].lat, scooterData[i].lon]);
+        let marker = L.marker([scooterData[i].latitude, scooterData[i].longitude]);
         markerCluster.addLayer(marker);
         markerList.push(marker);
     }
@@ -102,12 +117,44 @@ function getPopUpData(index) {
     var iFrame = document.getElementById("popUp");
 
     var scooterID = iFrame.contentWindow.document.getElementById("scooterID");
-    scooterID.innerHTML = scooterData[index].bike_id;
+    scooterID.innerHTML = scooterData[index].registration;
 
-    var scooterRange = iFrame.contentWindow.document.getElementById(
-        "scooterRange"
-    );
-    scooterRange.innerHTML = scooterData[index].current_range_meters + "m";
+    // var scooterRange = iFrame.contentWindow.document.getElementById("scooterRange");
+    // scooterRange.innerHTML = old_scooterData[index].current_range_meters + "m";
+
+    var scooterStatus = iFrame.contentWindow.document.getElementById("scooterStatus");
+    scooterStatus.innerHTML = scooterData[index].status;
+
+    var scooterBattery = iFrame.contentWindow.document.getElementById("scooterBattery");
+    scooterBattery.innerHTML = scooterData[index].batteryPercent * 100 + "%";
+
+
+}
+
+// Sidebar Nav code
+function openPopup() {
+    document.getElementById("nearby").style.height = "60vw";
+
+    const map = document.getElementById("map");
+    const locateBtn = document.getElementById("locateBtn");
+
+    if (map != null) {
+        map.style.zIndex = "-1";
+        locateBtn.style.zIndex = "-1";
+    }
+}
+
+function closePopup() {
+    document.getElementById("nearby").style.height = "0";
+    setTimeout(function() {
+        const map = document.getElementById("map");
+        const locateBtn = document.getElementById("locateBtn");
+
+        if (map != null) {
+            map.style.zIndex = "0";
+            locateBtn.style.zIndex = "1";
+        }
+    }, 500);
 }
 
 // Event listeners
