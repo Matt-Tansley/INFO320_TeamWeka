@@ -6,6 +6,8 @@ const maxSize = 10;
 
 var userLocation;
 
+var routingControl = null; // Keep track of routingControl
+
 // Customer icon to indicate where user is.
 const userIcon = L.icon({
   iconUrl: "male-solid.svg",
@@ -15,17 +17,21 @@ const userIcon = L.icon({
 });
 
 // Map code
+// Set up map, centering on Wellington.
 var mymap = L.map("mymap").setView([-41.28666552, 174.772996908], 13);
 
 L.tileLayer(
-    "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: "mapbox/streets-v11",
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: "pk.eyJ1IjoiY3J1bmNoeXBhbmNha2VzIiwiYSI6ImNrM25temk0YzFzMjMzcHM3bWdocXZuOXgifQ.m6zMp4CxLPXi5xp-zB1kkg",
-    }
+  "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+  {
+    attribution:
+      'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: "mapbox/streets-v11",
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken:
+      "pk.eyJ1IjoiY3J1bmNoeXBhbmNha2VzIiwiYSI6ImNrM25temk0YzFzMjMzcHM3bWdocXZuOXgifQ.m6zMp4CxLPXi5xp-zB1kkg",
+  }
 ).addTo(mymap);
 
 /* Getting data from API */
@@ -38,8 +44,8 @@ function getData() {
       scooterData = data.data;
       console.log(scooterData);
       // displayMarkers();
-        });
     });
+  });
 }
 
 function displayMarkers() {
@@ -52,60 +58,26 @@ function displayMarkers() {
   }
 }
 
-// Leaflet Routing Machine
-// L.Routing.control({
-//   waypoints: [
-//     L.latLng(-41.28666552, 174.772996908),
-//     L.latLng(-41.28766552, 174.772996908),
-//   ],
-//   routeWhileDragging: true,
-// }).addTo(mymap);
-
-// L.Routing.Itinerary.hide();
-
-/* Find route to replace batteries on scooters 
-Currently finds 10 closest scooters. 
-*/
-
 /* Find what scooters should be part of the route */
-function findWaypoints() {
-  // Sort scooter list by current range smallest to largest.
-  scooterData.sort(function (a, b) {
-    return a.current_range_meters - b.current_range_meters;
-  });
-
-  // Get the maxSize (10) closest scooters.
-  route = [];
-  for (var i = 0; i < maxSize; i++) {
-    route.push(scooterData[i]);
-  }
-
-  // Show the closest scooters to the user as a list.
-  var routeList = document.getElementById("routeList");
-  routeList.innerHTML = "";
-  for (var i = 0; i < route.length; i++) {
-    routeList.innerHTML += `<li>Scooter ID: ${route[i].bike_id}, Current Range: ${route[i].current_range_meters}</li>`;
-  }
-
-  // Display the closest scooters on the map.
-  displayRoute(route);
-}
-
 function findRoute() {
-  const metric = document.querySelector('input[name="metric"]:checked').value;
+  // Remove the previous route, if it existed.
+  if (routingControl != null) {
+    mymap.removeControl(routingControl);
+  }
+  // removeRoutingControl();
 
-  console.log(metric);
+  // What are we basing the search on.
+  const metric = document.querySelector('input[name="metric"]:checked').value;
 
   if (metric === "distance") {
     findDistanceRoute();
-  } else if (metric == "range") {
-    findRangeRoute();
+  } else if (metric == "battery") {
+    findBatteryRoute();
   } else {
     errorMessage("No metric selected");
   }
 }
 
-var scooterDataDistance = [];
 /* Finds distance between user and each scooter, then provides a 
 route for the user to take to get to the maxSize closest scooters*/
 function findDistanceRoute() {
@@ -126,33 +98,42 @@ function findDistanceRoute() {
 
     // Get distance between each marker in meters.
     var distance = from.distanceTo(to);
-    // Create object with scooterData plus distance from user.
-    var scooterDistance = { scooter: scooterData[i], dist: distance };
 
-    // Add new object to the array.
-    scooterDataDistance.push(scooterDistance);
+    // Add dist property to each scooter, where dist is distance from user as this function is executed.
+    scooterData[i].dist = distance;
   }
   // After loop.
-  // Sort scooter list by current range smallest to largest.
-  scooterDataDistance.sort(function (a, b) {
+  // Sort scooter list by dist smallest to largest.
+  scooterData.sort(function (a, b) {
     return a.dist - b.dist;
   });
 
   // Get the maxSize closest scooters.
   route = [];
   for (var i = 0; i < maxSize; i++) {
-    route.push(scooterDataDistance[i]);
+    route.push(scooterData[i]);
   }
 
   // Display the route on the map.
   displayRoute(route);
 }
 
-var scooterDataRange = [];
-function findRangeRoute() {
-  for (var i = 0; i < scooterData.length; i++) {}
+/* Gets battery percentage for each scooter, then provides a 
+route for the user to take to get to the maxSize closest scooters*/
+function findBatteryRoute() {
+  // Sort scooter list by battery percentage smallest to largest.
+  scooterData.sort(function (a, b) {
+    return a.batteryPercent - b.batteryPercent;
+  });
 
-  console.log(scooterDataRange);
+  // Get the maxSize scooters with lowest battery percentage.
+  route = [];
+  for (var i = 0; i < maxSize; i++) {
+    route.push(scooterData[i]);
+  }
+
+  // Display the route on the map.
+  displayRoute(route);
 }
 
 /* Visualises route on map given a list of waypoints. 
@@ -164,12 +145,10 @@ function displayRoute(points) {
 
   // Loop to extract the lat and lon from each point.
   for (var i = 0; i < points.length; i++) {
-    pointsLatLon.push(
-      L.latLng(points[i].scooter.latitude, points[i].scooter.longitude)
-    );
+    pointsLatLon.push(L.latLng(points[i].latitude, points[i].longitude));
   }
 
-  L.Routing.control({
+  routingControl = L.Routing.control({
     waypoints: pointsLatLon,
     routeWhileDragging: true,
   }).addTo(mymap);
@@ -205,23 +184,6 @@ function locateUser() {
 /* General error function */
 function errorMessage(message) {
   console.warn(`ERROR: ${message}`);
-function findRoute() {
-    // Sort scooter list by current range smallest to largest.
-    scooterData.sort(function(a, b) {
-        return a.current_range_meters - b.current_range_meters;
-    });
-
-    // Get the maxSize (10) closest scooters.
-    for (var i = 0; i < maxSize; i++) {
-        route.push(scooterData[i]);
-    }
-
-    // Show the closest scooters to the user.
-    var routeList = document.getElementById("routeList");
-    routeList.innerHTML = "";
-    for (var i = 0; i < route.length; i++) {
-        routeList.innerHTML += `<li>Scooter ID: ${route[i].bike_id}, Current Range: ${route[i].current_range_meters}</li>`;
-    }
 }
 
 // Event listners
