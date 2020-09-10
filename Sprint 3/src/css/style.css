@@ -436,21 +436,32 @@ p.contact {
     font-family: 'Roboto', sans-serif;
 }
 
+.icons {
+    height: 50px;
+    width: 50px;
+}
+
 .instructions {
-    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 15px;
 }
 
-ol {
-    list-style: none;
-    counter-reset: myCounter;
+.text {
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
 }
 
-ol li {
-    counter-increment: myCounter;
+.video {
+    width: 100%;
+    padding: 10px;
 }
 
-ol li::before {
-    content: counter(myCounter) ". ";
-    color: #000;
-    font-weight: bold;
+.backArrow {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 40px;
+    height: 40px;
 }
