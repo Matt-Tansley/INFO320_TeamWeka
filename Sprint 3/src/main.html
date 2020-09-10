@@ -55,9 +55,29 @@
             </div>
             <div class="map" id="map"></div>
             <input type="button" id="locateBtn" value="Locate" onclick="openPopup()" class="locateBtn" />
+            <input type="button" value ="Locate Options" class="locateOptionsBtn" id="locateOptionsBtn">
+            <div class="locateOptionsModal" id="locateOptionsModal">
+                <div class="locateOptionsContent">
+                    <div class="locateOptionsForm">
+                        <input
+                        type="radio"
+                        id="distance"
+                        name="metric"
+                        value="distance"
+                        checked
+                      />
+                      <label for="distance">Distance</label>
+                      <input type="radio" id="range" name="metric" value="battery" />
+                      <label for="range">Battery</label>
+                      <input type="button" value="Done" id="locateOptionsDone">
+                    </div>
+                    
+                </div>
+               
+            </div>
 
             <!-- Popup for locate button -->
-            <div class="nearby" id="nearby">
+            <!-- <div class="nearby" id="nearby">
                 <div class="nearbyHeader">
                     <p>Nearby Scooters</p>
                     <a href="javascript:void(0)" class="closePopup" onclick="closePopup()">×</a>
@@ -91,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <script src="js/script.js"></script>
 </body>
 
