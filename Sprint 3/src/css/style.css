@@ -460,3 +460,27 @@ p.contact {
   padding: 10px;
   background-color: #fff;
 }
+
+/* Icon options stylings */
+.iconOptions {
+  position: fixed;
+  bottom: 7%;
+  left: 0;
+  z-index: 999;
+  height: 15vh;
+  width: 28vw;
+  margin: 0 1vw;
+  padding: 0 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+}
+
+.iconOptions p {
+  font-weight: bold;
+  text-align: center;
+}

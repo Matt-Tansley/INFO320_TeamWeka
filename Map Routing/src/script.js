@@ -8,17 +8,65 @@ var userLocation;
 
 var routingControl = null; // Keep track of routingControl
 
-// Customer icon to indicate where user is.
+// Custom icon to indicate where user is.
 const userIcon = L.icon({
-  iconUrl: "male-solid.svg",
+  iconUrl: "resources/male-solid.svg",
   iconSize: [16],
   iconAnchor: [22, 94],
   popupAnchor: [-3, -76],
 });
 
+// Custom battery icons for scooters on map
+batteryFull = L.icon({
+  iconUrl: "resources/battery-full-solid.svg",
+  iconSize: [16],
+});
+
+batteryThreeQuarter = L.icon({
+  iconUrl: "resources/battery-three-quarters-solid.svg",
+  iconSize: [16],
+});
+
+batteryHalf = L.icon({
+  iconUrl: "resources/battery-half-solid.svg",
+  iconSize: [16],
+});
+
+batteryQuarter = L.icon({
+  iconUrl: "resources/battery-quarter-solid.svg",
+  iconSize: [16],
+});
+
+batteryEmpty = L.icon({
+  iconUrl: "resources/battery-empty-solid.svg",
+  iconSize: [16],
+});
+
+// Custom status icons for scooters on map
+statusAvailable = L.icon({
+  iconUrl: "resources/check-circle-solid.svg",
+  iconSize: [16],
+});
+
+statusUnavailable = L.icon({
+  iconUrl: "resources/times-circle-solid.svg",
+  iconSize: [16],
+});
+
+statusInuse = L.icon({
+  iconUrl: "resources/sync-alt-solid.svg",
+  iconSize: [16],
+});
+
+statusMaintenance = L.icon({
+  iconUrl: "resources/wrench-solid.svg",
+  iconSize: [16],
+});
+
 // Map code
 // Set up map, centering on Wellington.
 var mymap = L.map("mymap").setView([-41.28666552, 174.772996908], 13);
+var layerGroup = L.layerGroup().addTo(mymap); // contains markers for map
 
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -42,19 +90,65 @@ function getData() {
   fetch(url).then(function (response) {
     response.json().then(function (data) {
       scooterData = data.data;
-      console.log(scooterData);
-      // displayMarkers();
+      displayMarkers();
     });
   });
 }
 
+/* Display a marker for each scooter. */
 function displayMarkers() {
+  // Empty the markers array
+  markerList = [];
+  layerGroup.clearLayers();
+
   for (var i = 0; i < scooterData.length; i++) {
-    let marker = L.marker([
-      scooterData[i].latitude,
-      scooterData[i].longitude,
-    ]).addTo(mymap);
+    let marker = L.marker([scooterData[i].latitude, scooterData[i].longitude], {
+      icon: getIcon(scooterData[i]),
+    }).addTo(layerGroup);
     markerList.push(marker);
+  }
+}
+
+/* Determine the type of icon to display for this scooter */
+function getIcon(scooter) {
+  const displayIcon = document.querySelector(
+    'input[name="displayIcon"]:checked'
+  ).value;
+
+  if (displayIcon == "battery") {
+    return getBatteryIcon(scooter.batteryPercent);
+  } else if (displayIcon == "status") {
+    return getStatusIcon(scooter.status);
+  } else {
+    errorMessage("No display selected");
+  }
+}
+
+/* Return the correct icon for a scooter based on it's battery percent. */
+function getBatteryIcon(percent) {
+  if (percent < 0.15) {
+    // Below 15% is the level at which a scooter becomes unavailable to hire.
+    return batteryEmpty;
+  } else if (percent <= 0.25) {
+    return batteryQuarter;
+  } else if (percent <= 0.5) {
+    return batteryHalf;
+  } else if (percent <= 0.75) {
+    return batteryThreeQuarter;
+  } else {
+    return batteryFull;
+  }
+}
+
+function getStatusIcon(status) {
+  if (status == "INUSE") {
+    return statusInuse;
+  } else if (status == "AVAILABLE") {
+    return statusAvailable;
+  } else if (status == "UNAVAILABLE") {
+    return statusUnavailable;
+  } else if (status == "MAINTENANCE") {
+    return statusMaintenance;
   }
 }
 
@@ -192,3 +286,6 @@ locateUser();
 
 var button = document.getElementById("button");
 button.addEventListener("click", findRoute);
+
+var redisplayButton = document.getElementById("redisplayButton");
+redisplayButton.addEventListener("click", getData);
