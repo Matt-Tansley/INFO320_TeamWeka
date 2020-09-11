@@ -89,6 +89,7 @@ function getData() {
 
 // Base Leaflet / Map code
 var map = L.map("map").setView([-41.28664, 174.7757], 13);
+var layerGroup = L.layerGroup().addTo(map); // contains markers for map
 
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -110,13 +111,19 @@ var markerList = []; // array of markers so they can accssed throughout the code
 /* Creates a marker for each scooter.
 Adds all the markers to a markerClusterGroup so that they will 'cluster'. */
 function displayMarkers() {
+  // Reset arrays
+  markerList = [];
+  layerGroup.clearLayers();
+
   let markerCluster = L.markerClusterGroup({ disableClusteringAtZoom: 18 });
   for (var i = 0; i < scooterData.length; i++) {
-    let marker = L.marker([scooterData[i].latitude, scooterData[i].longitude]);
+    let marker = L.marker([scooterData[i].latitude, scooterData[i].longitude], {
+      icon: getIcon(scooterData[i]),
+    });
     markerCluster.addLayer(marker);
     markerList.push(marker);
   }
-  map.addLayer(markerCluster);
+  layerGroup.addLayer(markerCluster);
   createMarkerPopups();
 }
 
@@ -160,7 +167,7 @@ function getPopUpData(index) {
   scooterBattery.innerHTML = scooterData[index].batteryPercent * 100 + "%";
 }
 
-// Sidebar Nav code
+// Open popup for locate button code
 function openPopup() {
   document.getElementById("nearby").style.height = "60vw";
 
@@ -184,6 +191,128 @@ function closePopup() {
       locateBtn.style.zIndex = "1";
     }
   }, 500);
+}
+
+// Clsose popup for locate button code
+function closePopup() {
+  document.getElementById("nearby").style.height = "0";
+  setTimeout(function () {
+    const map = document.getElementById("map");
+    const locateBtn = document.getElementById("locateBtn");
+
+    if (map != null) {
+      map.style.zIndex = "0";
+      locateBtn.style.zIndex = "1";
+    }
+  }, 500);
+}
+
+/* Custom icons for map */
+const iconSize = 20;
+// Custom icon to indicate where user is.
+const userIcon = L.icon({
+  iconUrl: "resources/male-solid.svg",
+  iconSize: [iconSize],
+  iconAnchor: [22, 94],
+  popupAnchor: [-3, -76],
+});
+
+// Custom battery icons for scooters on map
+batteryFull = L.icon({
+  iconUrl: "resources/battery-full-solid.svg",
+  iconSize: [iconSize],
+});
+batteryThreeQuarter = L.icon({
+  iconUrl: "resources/battery-three-quarters-solid.svg",
+  iconSize: [iconSize],
+});
+batteryHalf = L.icon({
+  iconUrl: "resources/battery-half-solid.svg",
+  iconSize: [iconSize],
+});
+batteryQuarter = L.icon({
+  iconUrl: "resources/battery-quarter-solid.svg",
+  iconSize: [iconSize],
+});
+batteryEmpty = L.icon({
+  iconUrl: "resources/battery-empty-solid.svg",
+  iconSize: [iconSize],
+});
+
+// Custom status icons for scooters on map
+statusAvailable = L.icon({
+  iconUrl: "resources/check-circle-solid.svg",
+  iconSize: [iconSize],
+});
+statusUnavailable = L.icon({
+  iconUrl: "resources/times-circle-solid.svg",
+  iconSize: [iconSize],
+});
+statusInuse = L.icon({
+  iconUrl: "resources/sync-alt-solid.svg",
+  iconSize: [iconSize],
+});
+statusMaintenance = L.icon({
+  iconUrl: "resources/wrench-solid.svg",
+  iconSize: [iconSize],
+});
+
+/* Determine the type of icon to display for this scooter */
+function getIcon(scooter) {
+  const displayIcon = document.querySelector(
+    'input[name="displayIcon"]:checked'
+  ).value;
+
+  if (displayIcon == "battery") {
+    return getBatteryIcon(scooter.batteryPercent);
+  } else if (displayIcon == "status") {
+    return getStatusIcon(scooter.status);
+  } else {
+    errorMessage("No display selected");
+  }
+}
+
+/* Return the correct icon for a scooter based on it's battery percent. */
+function getBatteryIcon(percent) {
+  if (percent < 0.15) {
+    // Below 15% is the level at which a scooter becomes unavailable to hire.
+    return batteryEmpty;
+  } else if (percent <= 0.25) {
+    return batteryQuarter;
+  } else if (percent <= 0.5) {
+    return batteryHalf;
+  } else if (percent <= 0.75) {
+    return batteryThreeQuarter;
+  } else {
+    return batteryFull;
+  }
+}
+
+function getStatusIcon(status) {
+  if (status == "INUSE") {
+    return statusInuse;
+  } else if (status == "AVAILABLE") {
+    return statusAvailable;
+  } else if (status == "UNAVAILABLE") {
+    return statusUnavailable;
+  } else if (status == "MAINTENANCE") {
+    return statusMaintenance;
+  }
+}
+
+// Event listener for changing display icons
+const iconRadios = document.querySelectorAll('input[name="displayIcon"]');
+var prevIconRadio = null;
+for (var i = 0; i < iconRadios.length; i++) {
+  iconRadios[i].addEventListener("change", function () {
+    prevIconRadio ? console.log(prevIconRadio.value) : null;
+    if (this !== prevIconRadio) {
+      prevIconRadio = this;
+    }
+    console.log(this.value);
+
+    getData();
+  });
 }
 
 // Event listeners
