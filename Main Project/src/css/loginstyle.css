@@ -39,6 +39,10 @@ body {
   display: block;
 }
 
+input {
+  margin-bottom: 20px;
+}
+
 input[type="text"],
 input[type="password"] {
   width: 100%;

@@ -4,6 +4,6 @@ const port = process.env.PORT || 3000; // Port that the server will run on. Will
 
 app.use(express.static(__dirname + "/src")); // make sure we are getting stuff from the src folder.
 
-app.get("/", (req, res) => res.sendFile(__dirname + "/src/index.html"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/src/login.html"));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

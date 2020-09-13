@@ -22,3 +22,26 @@ font-family: 'Roboto', sans-serif;
   border: 1px solid black;
   padding: 4px;
 }
+
+.history-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 8px;
+  font-family: "Roboto", sans-serif;
+  border-bottom: 1px solid black;
+}
+
+.history-item div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.history-item img {
+  width: 100%;
+}

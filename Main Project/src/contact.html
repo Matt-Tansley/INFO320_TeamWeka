@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/ce0d2bff6f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.Default.css" />
+    <script src="resources/LeafletCluster/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Flamingo Finder</title>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-icons">
+            <img class="sidebar-grid-icon" src="resources/logo_white_on_pink_cropped.png" alt="" />
+            <i class="fas fa-history sidebar-grid-icon"></i>
+            <i class="fas fa-comment-alt sidebar-grid-icon"></i>
+            <i class="fas fa-info sidebar-grid-icon"></i>
+            <i class="fas fa-cog sidebar-grid-icon"></i>
+            <i class="fas fa-sign-out-alt sidebar-grid-icon"></i>
+        </div>
+        <div class="sidebar-text">
+            <div class="sidebar-user sidebar-grid-item">
+                <a href="javascript:void(0)" class="closeBtn" id="closeBtn">&times;</a
+          >
+          <p>Nick Hyland</p>
+        </div>
+        <a href="history.html" class="sidebar-grid-item">History</a>
+                <a href="notification_log.html" class="sidebar-grid-item">Notifications</a
+        >
+        <a href="support.html" class="sidebar-grid-item">Support</a>
+                <a href="" class="sidebar-grid-item">Settings</a>
+                <a href="login.html" class="sidebar-grid-item">Logout</a>
+
+                <div class="slidecontainer sidebar-grid-item">
+                    <p>Dark Mode</p>
+                    <input type="range" min="0" max="1" value="0" class="slider" id="myRange" />
+                </div>
+            </div>
+        </div>
+
+        <div class="opaque" id="opaque"></div>
+
+
+        <div class="container" id="container">
+            <div class="header">
+                <div class="openBtn" id="openBtn"><i class="fas fa-bars"></i></div>
+                <p>Notification</p>
+                <img class="logo" src="resources/logo_white_on_pink_cropped.png" alt="" />
+            </div>
+        </div>
+
+        <p class="contact">If you are experiencing any issues with the charging or location of the scooter, please contact the Flamingo Director, Nick Hyland at <span style="font-weight: bold;">027 872 6653</span></p>
+
+
+
+
+        <script src="js/script.js"></script>
+</body>
+
+</html>

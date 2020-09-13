@@ -57,7 +57,7 @@ font-family: 'Roboto', sans-serif;
   background-color: #fff;
   overflow-x: hidden;
   transition: 0.5s;
-  z-index: 2;
+  z-index: 1000;
   display: flex;
 }
 
