@@ -8,6 +8,11 @@ font-family: "Fugaz One", cursive;
 font-family: 'Roboto', sans-serif; 
  */
 
+/* Display to get route travel directions list */
+.leaflet-routing-container {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

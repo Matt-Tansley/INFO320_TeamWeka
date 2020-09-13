@@ -58,23 +58,12 @@ locateOptionsDone.onclick = function (e) {
   locateOptionsModal.style.display = "none";
 };
 
-// Getting data from Flamingo Public API
-// let scooterData = [];
-
-// function getData() {
-//     console.log("Getting old data")
-//     let url =
-//         "http://api.flamingoscooters.com/gbfs/wellington/free_bike_status.json";
-
-//     fetch(url).then(function(response) {
-//         response.json().then(function(data) {
-//             scooterData = data.data.bikes;
-//         });
-//     });
-// }
-
-// Getting data from updated Flamingo API
+// Getting data from updated Flamingo API / starting map code.
 let scooterData = [];
+var userLocation;
+locateUser(); // intial locate user call
+const maxSize = 10; // Maximum size for a route.
+var routingControl = null; // Keep track of routingControl
 
 function getData() {
   let url = "https://api.flamingoscooters.com/weka/feed.json";
@@ -82,6 +71,7 @@ function getData() {
   fetch(url).then(function (response) {
     response.json().then(function (data) {
       scooterData = data.data;
+      locateUser(); // find user again when map is redraw
       displayMarkers();
     });
   });
@@ -125,6 +115,11 @@ function displayMarkers() {
   }
   layerGroup.addLayer(markerCluster);
   createMarkerPopups();
+
+  console.log(userLocation);
+  var userMarker = L.marker([userLocation.latitude, userLocation.longitude], {
+    icon: userIcon,
+  }).addTo(layerGroup);
 }
 
 /* Creates popups for each marker */
@@ -257,6 +252,32 @@ statusMaintenance = L.icon({
   iconSize: [iconSize],
 });
 
+// Code to locate user
+// First, find coordinates through geolocation.
+function locateUser() {
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+  };
+
+  function success(pos) {
+    var crd = pos.coords;
+
+    console.log("Your current position is:");
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+    userLocation = crd;
+  }
+
+  function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
+  navigator.geolocation.getCurrentPosition(success, error, options);
+}
+
 /* Determine the type of icon to display for this scooter */
 function getIcon(scooter) {
   const displayIcon = document.querySelector(
@@ -313,6 +334,103 @@ for (var i = 0; i < iconRadios.length; i++) {
 
     getData();
   });
+}
+
+/* Route finding code */
+/* Find what scooters should be part of the route */
+function findRoute() {
+  // Remove the previous route, if it existed.
+  if (routingControl != null) {
+    map.removeControl(routingControl);
+  }
+  // removeRoutingControl();
+
+  // What are we basing the search on.
+  const metric = document.querySelector('input[name="metric"]:checked').value;
+
+  if (metric === "distance") {
+    findDistanceRoute();
+  } else if (metric == "battery") {
+    findBatteryRoute();
+  } else {
+    errorMessage("No metric selected");
+  }
+}
+
+/* Finds distance between user and each scooter, then provides a 
+route for the user to take to get to the maxSize closest scooters*/
+function findDistanceRoute() {
+  for (var i = 0; i < scooterData.length; i++) {
+    // First, user and scooter location have to be converted to markers to be compared using leaflet.
+    var userMarker = L.circleMarker([
+      userLocation.latitude,
+      userLocation.longitude,
+    ]);
+    var scooterMarker = L.circleMarker([
+      scooterData[i].latitude,
+      scooterData[i].longitude,
+    ]);
+
+    // Then extract coordinates from markers.
+    var from = userMarker.getLatLng();
+    var to = scooterMarker.getLatLng();
+
+    // Get distance between each marker in meters.
+    var distance = from.distanceTo(to);
+
+    // Add dist property to each scooter, where dist is distance from user as this function is executed.
+    scooterData[i].dist = distance;
+  }
+  // After loop.
+  // Sort scooter list by dist smallest to largest.
+  scooterData.sort(function (a, b) {
+    return a.dist - b.dist;
+  });
+
+  // Get the maxSize closest scooters.
+  route = [];
+  for (var i = 0; i < maxSize; i++) {
+    route.push(scooterData[i]);
+  }
+
+  // Display the route on the map.
+  displayRoute(route);
+}
+
+/* Gets battery percentage for each scooter, then provides a 
+  route for the user to take to get to the maxSize closest scooters*/
+function findBatteryRoute() {
+  // Sort scooter list by battery percentage smallest to largest.
+  scooterData.sort(function (a, b) {
+    return a.batteryPercent - b.batteryPercent;
+  });
+
+  // Get the maxSize scooters with lowest battery percentage.
+  route = [];
+  for (var i = 0; i < maxSize; i++) {
+    route.push(scooterData[i]);
+  }
+
+  // Display the route on the map.
+  displayRoute(route);
+}
+
+/* Visualises route on map given a list of waypoints. 
+  Expects to be passed an array of points. */
+function displayRoute(points) {
+  console.log(points);
+
+  var pointsLatLon = [];
+
+  // Loop to extract the lat and lon from each point.
+  for (var i = 0; i < points.length; i++) {
+    pointsLatLon.push(L.latLng(points[i].latitude, points[i].longitude));
+  }
+
+  routingControl = L.Routing.control({
+    waypoints: pointsLatLon,
+    routeWhileDragging: true,
+  }).addTo(map);
 }
 
 // Event listeners

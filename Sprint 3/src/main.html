@@ -10,6 +10,20 @@
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.css" />
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.Default.css" />
     <script src="resources/LeafletCluster/leaflet.markercluster.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
+    />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
+      charset="utf-8"
+    ></script>
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Flamingo Finder</title>
@@ -54,7 +68,7 @@
                 <img class="logo" src="resources/logo_white_on_pink_cropped.png" alt="" />
             </div>
             <div class="map" id="map"></div>
-            <input type="button" id="locateBtn" value="Locate" onclick="openPopup()" class="locateBtn" />
+            <input type="button" id="locateBtn" value="Locate" onclick="findRoute()" class="locateBtn" />
             <input type="button" value ="Locate Options" class="locateOptionsBtn" id="locateOptionsBtn">
             <div class="locateOptionsModal" id="locateOptionsModal">
                 <div class="locateOptionsContent">
