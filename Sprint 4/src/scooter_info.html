@@ -1,72 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/ce0d2bff6f.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script
+      src="https://kit.fontawesome.com/ce0d2bff6f.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
     <link rel="stylesheet" href="LeafletCluster/MarkerCluster.css" />
     <link rel="stylesheet" href="LeafletCluster/MarkerCluster.Default.css" />
     <script src="LeafletCluster/leaflet.markercluster.js"></script>
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Flamingo Scooter Finder</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="info" id="output">
-        <h3 class="scooterInfoTitle"><span>Settings</span></h3>
+      <h3 class="scooterInfoTitle"><span>Settings</span></h3>
 
-        <table>
-            <tr>
-                <th>ID:</th>
-                <td id="scooterID"></td>
-            </tr>
-            <!-- <tr>
+      <table>
+        <tr>
+          <th>ID:</th>
+          <td id="scooterID"></td>
+        </tr>
+        <!-- <tr>
                 <th>Range:</th>
                 <td id="scooterRange"></td>
             </tr> -->
-            <tr>
-                <th>Battery Range:</th>
-                <td id="scooterBattery"></td>
-            </tr>
-            <tr>
-                <th>Scooter Status:</th>
-                <td id="scooterStatus"></td>
-            </tr>
-            <tr>
-                <th>GPS Updated:</th>
-                <td>3:15pm 16/8/20</td>
-            </tr>
-            <tr>
-                <th>GPS Precsion:</th>
-                <td>Perfect</td>
-            </tr>
-        </table>
+        <tr>
+          <th>Battery:</th>
+          <td id="scooterBattery"></td>
+        </tr>
+        <tr>
+          <th>Status:</th>
+          <td id="scooterStatus"></td>
+        </tr>
+        <tr>
+          <th>Model:</th>
+          <td id="scooterModel"></td>
+        </tr>
+      </table>
 
-        <div class="buttons">
-            <div class="rows">
-                <div class="btn">
-                    Location
-                </div>
-                <div class="btn">
-                    Navigation
-                </div>
-            </div>
-            <div class="rows">
-                <div class="btn">
-                    Open Hatch
-                </div>
-                <div class="btn">
-                    Mark Completed
-                </div>
-            </div>
+      <div class="buttons">
+        <div class="rows">
+          <div class="btn">Location</div>
+          <div class="btn">Navigation</div>
         </div>
+        <div class="rows">
+          <div class="btn">Open Hatch</div>
+          <div class="btn">Mark Completed</div>
+        </div>
+      </div>
     </div>
 
     <script src="js/script.js"></script>
-</body>
-
+  </body>
 </html>

@@ -145,21 +145,28 @@ Is passed the index of the scooter/marker in the scooterData array. */
 function getPopUpData(index) {
   var iFrame = document.getElementById("popUp");
 
+  // ID
   var scooterID = iFrame.contentWindow.document.getElementById("scooterID");
   scooterID.innerHTML = scooterData[index].registration;
 
-  // var scooterRange = iFrame.contentWindow.document.getElementById("scooterRange");
-  // scooterRange.innerHTML = old_scooterData[index].current_range_meters + "m";
+  // Battery
+  var scooterBattery = iFrame.contentWindow.document.getElementById(
+    "scooterBattery"
+  );
+  scooterBattery.innerHTML =
+    Math.round(scooterData[index].batteryPercent * 100) + "%";
 
+  // Status
   var scooterStatus = iFrame.contentWindow.document.getElementById(
     "scooterStatus"
   );
   scooterStatus.innerHTML = scooterData[index].status;
 
-  var scooterBattery = iFrame.contentWindow.document.getElementById(
-    "scooterBattery"
+  // Model
+  var scooterModel = iFrame.contentWindow.document.getElementById(
+    "scooterModel"
   );
-  scooterBattery.innerHTML = scooterData[index].batteryPercent * 100 + "%";
+  scooterModel.innerHTML = scooterData[index].model;
 }
 
 // Open popup for locate button code
