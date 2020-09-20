@@ -7,3 +7,12 @@
 .leaflet-routing-container {
   /* display: none; */
 }
+
+.custom-div-icon i.awesome {
+  margin: 12px auto;
+  font-size: 20px;
+  color: red;
+  background-color: grey;
+  padding: 6px;
+  border-radius: 50px;
+}

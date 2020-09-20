@@ -90,7 +90,7 @@ function getData() {
   fetch(url).then(function (response) {
     response.json().then(function (data) {
       scooterData = data.data;
-      displayMarkers();
+      //displayMarkers();
     });
   });
 }
@@ -289,3 +289,14 @@ button.addEventListener("click", findRoute);
 
 var redisplayButton = document.getElementById("redisplayButton");
 redisplayButton.addEventListener("click", getData);
+
+// Custom icons with CSS
+icon = L.divIcon({
+  className: "custom-div-icon",
+  html:
+    "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='fa fa-camera awesome'>",
+  iconSize: [30, 42],
+  iconAnchor: [15, 42],
+});
+
+L.marker([-41.28666552, 174.772996908], { icon: icon }).addTo(layerGroup);
