@@ -60,15 +60,27 @@
                 <img class="logo" src="resources/logo_white_on_pink_cropped.png" alt="" />
             </div>
             <div class="map" id="map"></div>
-            <input type="button" id="locateBtn" value="Locate" onclick="openPopup()" class="locateBtn" />
+            <input type="button" id="locateBtn" value="Locate" onclick="findRoute()" class="locateBtn" />
             <input type="button" value="Locate Options" class="locateOptionsBtn" id="locateOptionsBtn">
+
             <div class="locateOptionsModal" id="locateOptionsModal">
                 <div class="locateOptionsContent">
                     <div class="locateOptionsForm">
-                        <input type="radio" id="distance" name="metric" value="distance" checked />
-                        <label for="distance">Distance</label>
-                        <input type="radio" id="range" name="metric" value="battery" />
-                        <label for="range">Battery</label>
+                        <span class="inputPair">
+                            <label for="distance">Distance: <p id="distanceOutput">100m</p></label>
+                            <input type="range" min="0" max="5000" value="100" id="distance">
+                        </span>
+
+                        <span class="inputPair">
+                            <label for="battery">Battery Percentage: <p id="batteryOutput">15%</p></label>
+                            <input type="range" min="0" max="100" value="15" id="battery">
+                        </span>
+
+                        <span class="inputPair">
+                            <label for="numScooters">Number of Scooters: <p id="numScootersOutput">2</p></label>
+                            <input type="number" value = 2 id="numScooters">
+                        </span>
+
                         <input type="button" value="Done" id="locateOptionsDone">
                     </div>
                 </div>
