@@ -164,17 +164,16 @@ function getPopUpData(index) {
 
 // Open popup for locate button code
 function openPopup() {
-  document.getElementById("nearby").style.height = "60vw";
-
   map = document.getElementById("map");
   const locateBtn = document.getElementById("locateBtn");
+  const locateOptionsBtn = document.getElementById("locateOptionsBtn");
+  const locateOptionsModal = document.getElementById("locateOptionsModal");
 
   if (map != null) {
     map.style.zIndex = "-1";
     locateBtn.style.zIndex = "-1";
+    locateOptionsBtn.style.zIndex = "-1";
   }
-
-  findRoute();
 }
 
 // Clsose popup for locate button code
@@ -183,10 +182,13 @@ function closePopup() {
   setTimeout(function () {
     map = document.getElementById("map");
     const locateBtn = document.getElementById("locateBtn");
+    const locateOptionsBtn = document.getElementById("locateOptionsBtn");
+    const locateOptionsModal = document.getElementById("locateOptionsModal");
 
     if (map != null) {
       map.style.zIndex = "0";
       locateBtn.style.zIndex = "1";
+      locateOptionsBtn.style.zIndex = "1";
     }
   }, 500);
 }
