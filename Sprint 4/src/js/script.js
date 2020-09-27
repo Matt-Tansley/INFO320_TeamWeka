@@ -463,13 +463,14 @@ function updateDistance() {
   // Add dist property to each scooter to get distance from current user location.
   for (var i = 0; i < scooterData.length; i++) {
     // First, user and scooter location have to be converted to markers to be compared using leaflet.
-    // var userMarker = L.circleMarker([
-    //   userLocation.latitude,
-    //   userLocation.longitude,
-    // ]);
+    var userMarker = L.circleMarker([
+      userLocation.latitude,
+      userLocation.longitude,
+    ]);
 
     // For testing purposes; a marker with hardcoded location.
-    var userMarker = L.circleMarker([-41.28664, 174.7757]);
+    // var userMarker = L.circleMarker([-41.28664, 174.7757]);
+
     var scooterMarker = L.circleMarker([
       scooterData[i].latitude,
       scooterData[i].longitude,

@@ -602,3 +602,9 @@ p.contact {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
 }
+
+/* Maintenance Page Stylings */
+.maintenance-wrapper {
+  font-family: "Roboto", sans-serif;
+  padding: 32px;
+}
