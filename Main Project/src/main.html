@@ -10,22 +10,14 @@
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.css" />
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.Default.css" />
     <script src="resources/LeafletCluster/leaflet.markercluster.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
-      charset="utf-8"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/style.css" />
 
+    <link rel="stylesheet" href="css/map_icons.css">
     <title>Flamingo Finder</title>
 </head>
 
@@ -33,10 +25,10 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-icons">
             <img class="sidebar-grid-icon" src="resources/logo_white_on_pink_cropped.png" alt="" />
+            <i class="fas fa-wrench sidebar-grid-icon"></i>
             <i class="fas fa-history sidebar-grid-icon"></i>
             <i class="fas fa-comment-alt sidebar-grid-icon"></i>
             <i class="fas fa-info sidebar-grid-icon"></i>
-            <i class="fas fa-cog sidebar-grid-icon"></i>
             <i class="fas fa-sign-out-alt sidebar-grid-icon"></i>
         </div>
         <div class="sidebar-text">
@@ -45,11 +37,12 @@
           >
           <p>Nick Hyland</p>
         </div>
+        <a href="maintenance.html" class="sidebar-grid-item">Maintenance</a>
         <a href="history.html" class="sidebar-grid-item">History</a>
                 <a href="notification_log.html" class="sidebar-grid-item">Notifications</a
         >
         <a href="support.html" class="sidebar-grid-item">Support</a>
-                <a href="" class="sidebar-grid-item">Settings</a>
+                <!-- <a href="" class="sidebar-grid-item">Settings</a> -->
                 <a href="login.html" class="sidebar-grid-item">Logout</a>
 
                 <div class="slidecontainer sidebar-grid-item">
@@ -69,21 +62,27 @@
             </div>
             <div class="map" id="map"></div>
             <input type="button" id="locateBtn" value="Locate" onclick="findRoute()" class="locateBtn" />
-            <input type="button" value ="Locate Options" class="locateOptionsBtn" id="locateOptionsBtn">
+            <input type="button" value="Locate Options" class="locateOptionsBtn" id="locateOptionsBtn">
+
             <div class="locateOptionsModal" id="locateOptionsModal">
                 <div class="locateOptionsContent">
                     <div class="locateOptionsForm">
-                        <input
-                        type="radio"
-                        id="distance"
-                        name="metric"
-                        value="distance"
-                        checked
-                      />
-                      <label for="distance">Distance</label>
-                      <input type="radio" id="range" name="metric" value="battery" />
-                      <label for="range">Battery</label>
-                      <input type="button" value="Done" id="locateOptionsDone">
+                        <span class="inputPair">
+                            <label for="distance">Distance: <p id="distanceOutput">100m</p></label>
+                            <input type="range" min="0" max="5000" value="100" id="distance">
+                        </span>
+
+                        <span class="inputPair">
+                            <label for="battery">Battery Percentage: <p id="batteryOutput">15%</p></label>
+                            <input type="range" min="0" max="100" value="15" id="battery">
+                        </span>
+
+                        <span class="inputPair">
+                            <label for="numScooters">Number of Scooters: <p id="numScootersOutput">2</p></label>
+                            <input type="number" value = 2 id="numScooters">
+                        </span>
+
+                        <input type="button" value="Done" id="locateOptionsDone">
                     </div>
                 </div>
             </div>

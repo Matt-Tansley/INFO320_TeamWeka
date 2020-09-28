@@ -26,7 +26,7 @@ closeBtn.addEventListener("click", closeNav);
 
 // Login validation
 function validate(form) {
-  if (form.email.value == "test" && form.password.value == "123") {
+  if (form.email.value == "user@flamingo.com" && form.password.value == "123") {
     window.location.href = "main.html";
   } else {
     alert("Email or Password is invalid");
@@ -72,6 +72,7 @@ function getData() {
     response.json().then(function (data) {
       scooterData = data.data;
       locateUser(); // find user again when map is redraw
+      updateDistance(); // update dist property of each scooter
       displayMarkers();
     });
   });
@@ -145,65 +146,52 @@ Is passed the index of the scooter/marker in the scooterData array. */
 function getPopUpData(index) {
   var iFrame = document.getElementById("popUp");
 
+  // ID
   var scooterID = iFrame.contentWindow.document.getElementById("scooterID");
   scooterID.innerHTML = scooterData[index].registration;
 
-  // var scooterRange = iFrame.contentWindow.document.getElementById("scooterRange");
-  // scooterRange.innerHTML = old_scooterData[index].current_range_meters + "m";
+  // Battery
+  var scooterBattery = iFrame.contentWindow.document.getElementById(
+    "scooterBattery"
+  );
+  scooterBattery.innerHTML =
+    Math.round(scooterData[index].batteryPercent * 100) + "%";
 
+  // Status
   var scooterStatus = iFrame.contentWindow.document.getElementById(
     "scooterStatus"
   );
   scooterStatus.innerHTML = scooterData[index].status;
 
-  var scooterBattery = iFrame.contentWindow.document.getElementById(
-    "scooterBattery"
+  // Model
+  var scooterModel = iFrame.contentWindow.document.getElementById(
+    "scooterModel"
   );
-  scooterBattery.innerHTML = scooterData[index].batteryPercent * 100 + "%";
+  scooterModel.innerHTML = scooterData[index].model;
+
+  // Distance
+  var scooterDistance = iFrame.contentWindow.document.getElementById(
+    "scooterDistance"
+  );
+  scooterDistance.innerHTML = Math.round(scooterData[index].dist) + "m";
 }
 
 // Open popup for locate button code
 function openPopup() {
-  document.getElementById("nearby").style.height = "60vw";
-
-  const map = document.getElementById("map");
-  const locateBtn = document.getElementById("locateBtn");
-
-  if (map != null) {
-    map.style.zIndex = "-1";
-    locateBtn.style.zIndex = "-1";
-  }
-}
-
-function closePopup() {
-  document.getElementById("nearby").style.height = "0";
-  setTimeout(function () {
-    const map = document.getElementById("map");
-    const locateBtn = document.getElementById("locateBtn");
-
-    if (map != null) {
-      map.style.zIndex = "0";
-      locateBtn.style.zIndex = "1";
-    }
-  }, 500);
+  const nearby = document.getElementById("nearby");
+  nearby.style.height = "40vh";
+  nearby.style.zIndex = "1000";
 }
 
 // Clsose popup for locate button code
 function closePopup() {
-  document.getElementById("nearby").style.height = "0";
-  setTimeout(function () {
-    const map = document.getElementById("map");
-    const locateBtn = document.getElementById("locateBtn");
-
-    if (map != null) {
-      map.style.zIndex = "0";
-      locateBtn.style.zIndex = "1";
-    }
-  }, 500);
+  const nearby = document.getElementById("nearby");
+  nearby.style.height = "0";
+  nearby.style.zIndex = "-1";
 }
 
 /* Custom icons for map */
-const iconSize = 20;
+const iconSize = 24;
 // Custom icon to indicate where user is.
 const userIcon = L.icon({
   iconUrl: "resources/male-solid.svg",
@@ -337,24 +325,58 @@ for (var i = 0; i < iconRadios.length; i++) {
 }
 
 /* Route finding code */
+
+// Keeping track of route finding user inputs.
+const distance = document.getElementById("distance");
+const battery = document.getElementById("battery");
+const numScooters = document.getElementById("numScooters");
+
+distance.oninput = function () {
+  const distanceOutput = document.getElementById("distanceOutput");
+  distanceOutput.innerHTML = this.value + "m";
+};
+
+battery.oninput = function () {
+  const batteryOutput = document.getElementById("batteryOutput");
+  batteryOutput.innerHTML = this.value + "%";
+};
+
+numScooters.oninput = function () {
+  const numScootersOutput = document.getElementById("numScootersOutput");
+  numScootersOutput.innerHTML = this.value;
+};
+
 /* Find what scooters should be part of the route */
 function findRoute() {
+  openPopup(); // opens the route finding pop-up.
   // Remove the previous route, if it existed.
   if (routingControl != null) {
     map.removeControl(routingControl);
   }
-  // removeRoutingControl();
 
-  // What are we basing the search on.
-  const metric = document.querySelector('input[name="metric"]:checked').value;
+  // Create array to hold route.
+  var route = [];
 
-  if (metric === "distance") {
-    findDistanceRoute();
-  } else if (metric == "battery") {
-    findBatteryRoute();
-  } else {
-    errorMessage("No metric selected");
+  // Get number of scooters user wants to find.
+  const distanceInput = document.getElementById("distance").value;
+  const batteryInput = document.getElementById("battery").value;
+  const numScootersInput = document.getElementById("numScooters").value;
+
+  for (var i = 0; i < scooterData.length; i++) {
+    if (
+      scooterData[i].dist <= distanceInput &&
+      scooterData[i].batteryPercent <= batteryInput
+    ) {
+      route.push(scooterData[i]);
+      if (route.length == numScootersInput) {
+        break;
+      }
+    }
   }
+
+  console.log(route);
+
+  displayRoute(route);
 }
 
 /* Finds distance between user and each scooter, then provides a 
@@ -382,7 +404,7 @@ function findDistanceRoute() {
     scooterData[i].dist = distance;
   }
   // After loop.
-  // Sort scooter list by dist smallest to largest.
+  // Sort scooter list by dist smallest to largest distance.
   scooterData.sort(function (a, b) {
     return a.dist - b.dist;
   });
@@ -427,10 +449,43 @@ function displayRoute(points) {
     pointsLatLon.push(L.latLng(points[i].latitude, points[i].longitude));
   }
 
+  // console.log(map);
+
   routingControl = L.Routing.control({
     waypoints: pointsLatLon,
     routeWhileDragging: true,
   }).addTo(map);
+}
+
+/* Adds a dist property to each scooter, where dist is the distance from the user's location to that scooter.
+ */
+function updateDistance() {
+  // Add dist property to each scooter to get distance from current user location.
+  for (var i = 0; i < scooterData.length; i++) {
+    // First, user and scooter location have to be converted to markers to be compared using leaflet.
+    var userMarker = L.circleMarker([
+      userLocation.latitude,
+      userLocation.longitude,
+    ]);
+
+    // For testing purposes; a marker with hardcoded location.
+    // var userMarker = L.circleMarker([-41.28664, 174.7757]);
+
+    var scooterMarker = L.circleMarker([
+      scooterData[i].latitude,
+      scooterData[i].longitude,
+    ]);
+
+    // Then extract coordinates from markers.
+    var from = userMarker.getLatLng();
+    var to = scooterMarker.getLatLng();
+
+    // Get distance between each marker in meters.
+    var distance = from.distanceTo(to);
+
+    // Add dist property to each scooter, where dist is distance from user as this function is executed.
+    scooterData[i].dist = distance;
+  }
 }
 
 // Event listeners

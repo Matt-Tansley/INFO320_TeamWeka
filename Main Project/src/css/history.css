@@ -5,24 +5,6 @@
 font-family: "Fugaz One", cursive;
 font-family: 'Roboto', sans-serif; 
  */
-
-.history-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-family: "Roboto", sans-serif;
-  padding: 10px;
-  border-bottom: 1px solid black;
-}
-
-.history-header a {
-  text-decoration: none;
-  color: black;
-  border: 1px solid black;
-  padding: 4px;
-}
-
 .history-items {
   display: flex;
   flex-direction: column;

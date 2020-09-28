@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.css" />
     <link rel="stylesheet" href="resources/LeafletCluster/MarkerCluster.Default.css" />
     <script src="resources/LeafletCluster/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="stylesheet" href="css/map_icons.css">
     <title>Flamingo Finder</title>
 </head>
 
@@ -47,47 +54,30 @@
 
         <div class="opaque" id="opaque"></div>
 
-
         <div class="container" id="container">
             <div class="header">
                 <div class="openBtn" id="openBtn"><i class="fas fa-bars"></i></div>
-                <p>Support</p>
+                <p>Maintenance</p>
                 <img class="logo" src="resources/logo_white_on_pink_cropped.png" alt="" />
             </div>
-        </div>
 
-        <div class="page-header">
-            <a href="main.html" class="back-btn"
-              ><i class="fas fa-long-arrow-alt-left"></i> Back to Main Screen</a
-            >
-            <h1>Support Resources</h1>
-          </div>
-
-        <div class="supportOption">
-            <a href="charging_Instructions.html" class="supportlinks">
-                <div class="scooter-charge">
-                    <div class="scooter-column">
-                        <img class="item-image" src="resources/charging.png" width="80" height="80">
-                        <p class="scooter-info"> <span class="scooter-title">How to Charge</span> <br> Learn how to charge a scooter <br>
-                            <p>
-                    </div>
-            </a>
+            <div class="page-header">
+                <a href="main.html" class="back-btn"
+                  ><i class="fas fa-long-arrow-alt-left"></i> Back to Main Screen</a
+                >
             </div>
 
-            <a href="contact.html" class="supportlinks">
-                <div class="scooter-contact">
-                    <div class="scooter-column">
-                        <img class="item-image" src="resources/phone.png" width="70" height="70">
-                        <p class="scooter-info"> <span class="scooter-title">Contact</span><br> Get in touch with staff <br> </p>
-                    </div>
+            <div class="maintenance-wrapper">
+                <span class="inputPair"><label for="scooterIDInput">Scooter ID</label>
+                    <select id="scooterIDInput"></select></span>
+                <button id="openHatchBtn">Open Hatch</button>
+
+                <div id="scooterInfo">
+
                 </div>
-            </a>
+            </div>
 
-        </div>
-
-
-
-        <script src="js/script.js"></script>
+            <script src="js/maintenance.js"></script>
 </body>
 
 </html>
